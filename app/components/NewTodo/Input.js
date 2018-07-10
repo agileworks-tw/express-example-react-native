@@ -4,7 +4,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 const Input = props => (
   <TextInput
     style={styles.textInput}
-    onChangeText={props.onChangeNewTodoText}
+    onChangeText={props.onChangeNewTodoTitle}
     value={props.newTodoValue}
     underlineColorAndroid={'transparent'}
     placeholder={'Enter a Todo Item...'}

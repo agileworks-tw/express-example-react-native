@@ -4,20 +4,20 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TodoItem = ({ todo, onPressComplete, onPressRemove }) => {
-  const isCompleted = todo.status === 'c';
-  const isIncomplete = todo.status === 'i';
+  const isCompleted = todo.completed === true;
+  const isIncomplete = todo.completed === false;
   return (
     <TouchableOpacity style={styles.container}>
       <View style={{}}>
         <Text
           style={[
-            styles.todoText,
+            styles.todoTitle,
             {
               textDecorationLine: isCompleted ? 'line-through' : 'none'
             }
           ]}
         >
-          {todo.todoText}
+          {todo.title}
         </Text>
       </View>
       {isIncomplete && (
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   btnGroup: {
     flexDirection: 'row'
   },
-  todoText: {
+  todoTitle: {
     color: 'black',
     fontWeight: 'bold'
   }

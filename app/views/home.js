@@ -15,20 +15,31 @@ class App extends Component {
   state = {
     newTodoValue: '',
     todos: [
-      // { id: 1, todoText: '👋 Meet and Greet', status: 'i' },
-      // { id: 2, todoText: '🔈 Full Stack Nanodegree', status: 'i' },
-      // { id: 3, todoText: '👨🏻‍💻 Current Work', status: 'i' },
-      // { id: 4, todoText: '🛠 React Native Tools', status: 'i' }
+      // { id: 1, title: '👋 Meet and Greet', status: 'i' },
+      // { id: 2, title: '🔈 Full Stack Nanodegree', status: 'i' },
+      // { id: 3, title: '👨🏻‍💻 Current Work', status: 'i' },
+      // { id: 4, title: '🛠 React Native Tools', status: 'i' }
     ]
   };
+
+  async componentDidMount (){
+      let response = await fetch("http://192.168.60.1:3000/api/users/hellojs/tasks");
+      let result = await response.json();
+
+      let todos = result.tasks;
+
+      console.log("todos", todos);
+
+      this.setState({todos});
+  }
 
   handleComplete = todo => {
     const todos = this.state.todos;
     const todoToUpdate = find(propEq('id', todo.id))(todos);
-    const hasStatusProp = has('status')(todoToUpdate);
-
-    if (keys(todoToUpdate).length > 0 && hasStatusProp) {
-      const updatedTodo = assoc('status', 'c')(todoToUpdate);
+    const hasCompletedProp = has('completed')(todoToUpdate);
+    
+    if (keys(todoToUpdate).length > 0 && hasCompletedProp) {
+      const updatedTodo = assoc('completed', true)(todoToUpdate);
       const updatedTodoList = todos.map(t => {
         if (t.id === todo.id) return updatedTodo;
         return t;
@@ -45,17 +56,35 @@ class App extends Component {
     this.setState({ todos: updatedTodos });
   };
 
-  handleOnAddNewTodo = () => {
+  handleOnAddNewTodo = async () => {
     const { todos, newTodoValue } = this.state;
     if (newTodoValue.length < 5) {
       Alert.alert('Empty Todo', 'Enter at least 4 or more characters!');
       return;
     }
+
+    const data = {
+      title: newTodoValue,
+      completed: false
+    };
+
+    let response = await fetch('http://192.168.60.1:3000/api/users/hellojs/tasks/create', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    let result = await response.json();
+
     const newTodo = {
-      id: todos.length + 1,
-      todoText: newTodoValue,
+      id: result.task.id,
+      title: result.task.title,
       status: 'i'
     };
+
+
     this.setState({
       todos: [...this.state.todos, newTodo],
       newTodoValue: ''
@@ -86,24 +115,11 @@ class App extends Component {
             marginTop: 20
           }}
         >
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#fff',
-              padding: 15,
-              borderRadius: 8,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-            onPress={this.navigateToScreen2}
-          >
-            <Text style={{ fontFamily: 'FiraCode-Regular' }}>
-              Click to Open New Screen!
-            </Text>
-          </TouchableOpacity>
+
         </View>
         <View style={{ margin: 20 }}>
           <NewTodo
-            onChangeNewTodoText={newVal =>
+            onChangeNewtitle={newVal =>
               this.setState({ newTodoValue: newVal })
             }
             newTodoValue={newTodoValue}

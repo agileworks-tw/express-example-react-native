@@ -25,7 +25,7 @@ const TodoList = props => (
             fontStyle: 'italic'
           }}
         >
-          Don't you have anything to-do ? 🌚
+          目前沒有待做清單 :)
         </Text>
       </View>
     )}

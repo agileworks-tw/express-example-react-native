@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Input from './Input';
 
-const NewTodo = ({ newTodoValue, onAddNewTodo, onChangeNewTodoText }) => (
+const NewTodo = ({ newTodoValue, onAddNewTodo, onChangeNewTodoTitle }) => (
   <View
     style={{
       // flex: 1,
@@ -16,7 +16,7 @@ const NewTodo = ({ newTodoValue, onAddNewTodo, onChangeNewTodoText }) => (
     }}
   >
     <Input
-      onChangeNewTodoText={onChangeNewTodoText}
+      onChangeNewTodoTitle={onChangeNewTodoTitle}
       newTodoValue={newTodoValue}
     />
     <TouchableOpacity style={styles.btnContainer} onPress={onAddNewTodo}>

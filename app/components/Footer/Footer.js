@@ -32,7 +32,7 @@ const Footer = () => (
           textDecorationLine: 'underline'
         }}
       >
-        Abhishek Ghosh
+        Modern Web 2018 x Trunk x Monospace
       </Text>
     </TouchableOpacity>
   </View>
