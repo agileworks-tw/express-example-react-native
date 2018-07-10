@@ -44,7 +44,7 @@ class App extends Component {
       let data = {
         completed
       }
-      let response = await fetch(`http://localhost:3000/api/task/${id}`, {
+      let response = await fetch(`http://192.168.60.1:3000/api/task/${id}`, {
         method: 'put',
         headers: {
           "Content-Type": "application/json"
@@ -64,9 +64,17 @@ class App extends Component {
     }
   };
 
-  handleRemove = todo => {
+  handleRemove = async todo => {
     const todos = this.state.todos;
+    let id = todo.id;
+
+    let response = await fetch(`http://192.168.60.1:3000/api/task/${id}`, {
+      method: 'delete'
+    });
+    let result = await response.json();
+
     const updatedTodos = todos.filter(t => t.id !== todo.id);
+
     this.setState({ todos: updatedTodos });
   };
 
