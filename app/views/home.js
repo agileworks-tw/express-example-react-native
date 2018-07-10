@@ -15,10 +15,10 @@ class App extends Component {
   state = {
     newTodoValue: '',
     todos: [
-      // { id: 1, title: '👋 Meet and Greet', status: 'i' },
-      // { id: 2, title: '🔈 Full Stack Nanodegree', status: 'i' },
-      // { id: 3, title: '👨🏻‍💻 Current Work', status: 'i' },
-      // { id: 4, title: '🛠 React Native Tools', status: 'i' }
+      // { id: 1, title: '👋 Meet and Greet', completed: false },
+      // { id: 2, title: '🔈 Full Stack Nanodegree', completed: false },
+      // { id: 3, title: '👨🏻‍💻 Current Work', completed: false },
+      // { id: 4, title: '🛠 React Native Tools', completed: false }
     ]
   };
 
@@ -33,13 +33,27 @@ class App extends Component {
       this.setState({todos});
   }
 
-  handleComplete = todo => {
+  handleComplete = async todo => {
     const todos = this.state.todos;
     const todoToUpdate = find(propEq('id', todo.id))(todos);
     const hasCompletedProp = has('completed')(todoToUpdate);
     
     if (keys(todoToUpdate).length > 0 && hasCompletedProp) {
-      const updatedTodo = assoc('completed', true)(todoToUpdate);
+      let id = todoToUpdate.id;
+      let completed = true;
+      let data = {
+        completed
+      }
+      let response = await fetch(`http://localhost:3000/api/task/${id}`, {
+        method: 'put',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const updatedTodo = assoc('completed', completed)(todoToUpdate);
+      
       const updatedTodoList = todos.map(t => {
         if (t.id === todo.id) return updatedTodo;
         return t;
@@ -58,10 +72,10 @@ class App extends Component {
 
   handleOnAddNewTodo = async () => {
     const { todos, newTodoValue } = this.state;
-    if (newTodoValue.length < 5) {
-      Alert.alert('Empty Todo', 'Enter at least 4 or more characters!');
-      return;
-    }
+    // if (newTodoValue.length < 5) {
+    //   Alert.alert('Empty Todo', 'Enter at least 4 or more characters!');
+    //   return;
+    // }
 
     const data = {
       title: newTodoValue,
@@ -78,15 +92,8 @@ class App extends Component {
 
     let result = await response.json();
 
-    const newTodo = {
-      id: result.task.id,
-      title: result.task.title,
-      status: 'i'
-    };
-
-
     this.setState({
-      todos: [...this.state.todos, newTodo],
+      todos: [...this.state.todos, result.task],
       newTodoValue: ''
     });
   };
@@ -119,7 +126,7 @@ class App extends Component {
         </View>
         <View style={{ margin: 20 }}>
           <NewTodo
-            onChangeNewtitle={newVal =>
+            onChangeNewTodoTitle={newVal =>
               this.setState({ newTodoValue: newVal })
             }
             newTodoValue={newTodoValue}
