@@ -85,12 +85,6 @@ class App extends Component {
 
   handleRemove = async todo => {
     const todos = this.state.todos;
-    let id = todo.id;
-
-    let response = await fetch(`http://192.168.60.1:3000/api/task/${id}`, {
-      method: 'delete'
-    });
-    let result = await response.json();
 
     const updatedTodos = todos.filter(t => t.id !== todo.id);
 
@@ -99,10 +93,6 @@ class App extends Component {
 
   handleOnAddNewTodo = async () => {
     const { todos, newTodoValue } = this.state;
-    // if (newTodoValue.length < 5) {
-    //   Alert.alert('Empty Todo', 'Enter at least 4 or more characters!');
-    //   return;
-    // }
 
     const data = {
       title: newTodoValue,

@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TodoItem = ({ todo, onPressComplete, onPressRemove }) => {
-  console.log("TodoItem", todo);
   const isCompleted = todo.completed === true;
   const isIncomplete = todo.completed === false;
   return (
@@ -29,22 +28,10 @@ const TodoItem = ({ todo, onPressComplete, onPressRemove }) => {
           >
             <Icon size={15} name={'check'} color={'#fff'} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => onPressRemove(todo)}
-            style={styles.btnContainer}
-          >
-            <Icon size={15} name={'times'} color={'#fff'} />
-          </TouchableOpacity>
         </View>
       )}
       {isCompleted && (
         <View style={styles.btnGroup}>
-          <TouchableOpacity
-            onPress={() => onPressRemove(todo)}
-            style={styles.btnContainer}
-          >
-            <Icon size={15} name={'times'} color={'#fff'} />
-          </TouchableOpacity>
         </View>
       )}
     </TouchableOpacity>
