@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Platform } from 'react-native';
 import { find, propEq, keys, has, assoc } from 'ramda';
 
 
 import TodoList from '../components/TodoList';
 import NewTodo from '../components/NewTodo';
 import Footer from '../components/Footer';
+import Config from 'react-native-config'
 
-// let logger = require('fluent-logger')
+import FluentLogHelper from 'fluent-log-helper';
+
+let config = {
+  host: "211.72.239.244",
+  port: "24224",
+  tag_prefix: "cargocms.pos"
+}
 
 class App extends Component {
   static navigatorStyle = {
@@ -26,44 +33,20 @@ class App extends Component {
   };
 
   async componentDidMount (){
-      try {
-        let data = {
-          "action": "login",
-          "user": 1000
-        };
-        fetch(`http://211.72.239.244:24224/cargocms.pos.info.log`, {
-          method: 'post',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
+    
+    let url = "http://localhost:3000";
+    console.log(Config);
 
-        // The 2nd argument can be omitted. Here is a default value for options.
-        // logger.configure('cargocms.pos', {
-        //   host: '211.72.239.244',
-        //   port: 24224,
-        //   timeout: 3.0,
-        //   reconnectInterval: 600000 // 10 minutes
-        // });
+    if (Platform.OS !== 'ios') url = Config.API_URL;
 
-        // // send an event record with 'tag.label'
-        // logger.emit('info', {
-        //   record: 'this is a log'
-        // });
+    response = await fetch(`${url}/api/users/hellojs/tasks`);
+    let result = await response.json();
 
-      } catch (error) {
-        console.log(error);
-      }
+    let todos = result.tasks;
 
-      response = await fetch("http://192.168.60.1:3000/api/users/hellojs/tasks");
-      let result = await response.json();
-
-      let todos = result.tasks;
-
-      this.setState({
-        todos
-      });
+    this.setState({
+      todos
+    });
 
 
 
