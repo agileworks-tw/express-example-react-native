@@ -153,6 +153,7 @@ class App extends Component {
         <TodoList
           data={todos}
           onPressComplete={this.handleComplete}
+          onPressRemove={this.handleRemove}
         />
         <Footer />
       </View>
