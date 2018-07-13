@@ -85,6 +85,11 @@ class App extends Component {
 
   handleRemove = async todo => {
     console.log("handleRemove", todo);
+    const todos = this.state.todos;
+
+    const updatedTodos = todos.filter(t => t.id !== todo.id);
+
+    this.setState({ todos: updatedTodos });    
   };
 
   handleOnAddNewTodo = async () => {
