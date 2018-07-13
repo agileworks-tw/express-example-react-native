@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, Alert } from 'react-native';
 import { find, propEq, keys, has, assoc } from 'ramda';
 
 
@@ -84,15 +84,15 @@ class App extends Component {
   };
 
   handleRemove = async todo => {
-    const todos = this.state.todos;
-
-    const updatedTodos = todos.filter(t => t.id !== todo.id);
-
-    this.setState({ todos: updatedTodos });
+    console.log("handleRemove", todo);
   };
 
   handleOnAddNewTodo = async () => {
     const { todos, newTodoValue } = this.state;
+    if (newTodoValue.length == 0) {
+      Alert.alert('Empty Todo', '請輸入待做事項');
+      return;
+    }
 
     const data = {
       title: newTodoValue,
@@ -152,7 +152,6 @@ class App extends Component {
         </View>
         <TodoList
           data={todos}
-          onPressRemove={this.handleRemove}
           onPressComplete={this.handleComplete}
         />
         <Footer />
