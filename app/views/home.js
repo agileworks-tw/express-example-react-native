@@ -45,7 +45,7 @@ class App extends Component {
     let todos = result.tasks;
 
     this.setState({
-      todos
+      todos, url
     });
 
 
@@ -63,7 +63,7 @@ class App extends Component {
       let data = {
         completed
       }
-      let response = await fetch(`http://192.168.60.1:3000/api/task/${id}`, {
+      let response = await fetch(`${this.state.url}/api/task/${id}`, {
         method: 'put',
         headers: {
           "Content-Type": "application/json"
@@ -99,7 +99,7 @@ class App extends Component {
       completed: false
     };
 
-    let response = await fetch('http://192.168.60.1:3000/api/users/hellojs/tasks/create', {
+    let response = await fetch(`${this.state.url}/api/users/hellojs/tasks/create`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json"
