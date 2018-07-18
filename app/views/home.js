@@ -85,6 +85,16 @@ class App extends Component {
 
   handleRemove = async todo => {
     console.log("handleRemove", todo);
+    const todos = this.state.todos;
+
+    let response = await fetch(`${this.state.url}:3000/api/task/${todo.id}`, {
+      method: 'delete'
+    });
+    let result = await response.json();
+
+    const updatedTodos = todos.filter(t => t.id !== todo.id);
+
+    this.setState({ todos: updatedTodos });     
   };
 
   handleOnAddNewTodo = async () => {
@@ -153,6 +163,7 @@ class App extends Component {
         <TodoList
           data={todos}
           onPressComplete={this.handleComplete}
+          onPressRemove={this.handleRemove}
         />
         <Footer />
       </View>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const TodoItem = ({ todo, onPressComplete }) => {
+const TodoItem = ({ todo, onPressComplete, onPressRemove }) => {
   const isCompleted = todo.completed === true;
   const isIncomplete = todo.completed === false;
   return (
@@ -32,6 +32,7 @@ const TodoItem = ({ todo, onPressComplete }) => {
       )}
       {isCompleted && (
         <View style={styles.btnGroup}>
+          <Button title="X" onPress={() => onPressRemove(todo)} />
         </View>
       )}
     </TouchableOpacity>
